@@ -2,21 +2,6 @@
 
 -- Base de Datos SAC - Sistema de Atencion Canina
 
--- Limpiar Base de Datos
-DROP TABLE IF EXISTS Cita;
-DROP TABLE IF EXISTS Servicio;
-DROP TABLE IF EXISTS Mascota;
-DROP TABLE IF EXISTS Clinica;
-DROP TABLE IF EXISTS Usuario;
-
--- Verificaciones después de crear o eliminar tablas
-SELECT name FROM sqlite_master WHERE type='table';
-
-PRAGMA foreign_key_list(Mascota);
-PRAGMA foreign_key_list(Clinica);
-PRAGMA foreign_key_list(Servicio);
-PRAGMA foreign_key_list(Cita);
-
 ---------------------------------
 -- TABLA USUARIO
 ---------------------------------
@@ -63,12 +48,6 @@ CREATE TABLE IF NOT EXISTS Mascota (
         ON UPDATE CASCADE
 );
 
--- Prueba (Ejecutar a la misma vez que la llave foranea) Debe fallar para verificar la integridad referencial
-PRAGMA foreign_keys = ON;
-
-INSERT INTO Mascota (nombre, especie, raza, sexo, edad, peso, fechaNacimiento, estado, idUsuario)
-VALUES ('Firulais', 'Perro', 'Macho', 'Macho', 20, 20.5, '2020-01-01', 1, 999);
-
 ---------------------------------
 -- TABLA CLINICA
 ---------------------------------
@@ -86,12 +65,6 @@ CREATE TABLE IF NOT EXISTS Clinica (
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
-
--- Prueba (Ejecutar a la misma vez que la llave foranea) Debe fallar para verificar la integridad referencial
-PRAGMA foreign_keys = ON;
-
-INSERT INTO Clinica (nombre, direccion, telefono, correo, estado, idUsuario)
-VALUES ('Test', 'Dir', '123', 'test@test.com', 0, 9999);
 
 -- Simulacion cambio de estado de clinica a verificada
 UPDATE Clinica SET estado = 1 WHERE idClinica = 1;
@@ -114,12 +87,6 @@ CREATE TABLE IF NOT EXISTS Servicio (
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
-
--- Prueba (Ejecutar a la misma vez que la llave foranea) Debe fallar para verificar la integridad referencial
-PRAGMA foreign_keys = ON;
-
-INSERT INTO Servicio (tipoServicio, nombre, precio, duracion, idClinica)
-VALUES ('Vacuna', 'Vacuna Rabia', 50000, 30, 999);
 
 ----------------------------------
 -- TABLA CITA
@@ -151,11 +118,5 @@ CREATE TABLE IF NOT EXISTS Cita (
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
-
--- Prueba (Ejecutar a la misma vez que la llave foranea) Debe fallar para verificar la integridad referencial
-PRAGMA foreign_keys = ON;
-
-INSERT INTO Cita (fecha, observaciones, estado, idUsuario, idMascota, idClinica, idServicio)
-VALUES ('2024-07-01 10:00:00', 'Observaciones de prueba', 'Pendiente', 999, 999, 999, 999);
 
 

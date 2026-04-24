@@ -1,4 +1,5 @@
 import os
+import sqlite3
 from flask import Flask, render_template, session, redirect, url_for, request, flash
 from utils.auth import login_required, rol_required
 from controllers.dashboard_controller import (
@@ -41,6 +42,26 @@ from controllers.cita_controller import (
     confirmar_cita
 )
 
+def init_db():
+    db_path = "database/sac.db"
+    sql_path = "database/scripts/init_db.sql"
+
+    if not os.path.exists(db_path):
+        print("⚠️ Base de datos no encontrada, creando...")
+
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+
+        with open(sql_path, "r", encoding="utf-8") as f:
+            sql_script = f.read()
+
+        cursor.executescript(sql_script)
+
+        conn.commit()
+        conn.close()
+
+        print("✅ Base de datos creada correctamente")
+
 def cargar_env():
     if os.path.exists(".env"):  
         with open(".env") as f:
@@ -50,6 +71,7 @@ def cargar_env():
                     os.environ[key] = value
 
 cargar_env()
+init_db()
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
