@@ -1,0 +1,83 @@
+{% extends "dashboard_base.html" %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+{% if usuario %}
+
+<div class="card shadow mb-4 border-left-success">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-success">Dashboard</h6>
+    </div>
+
+    <div class="card-body">
+        <div class="container-fluid">
+
+            <p>Bienvenido {{ usuario.nombre_completo }}</p>
+
+            <div class="row">
+
+                <!-- Citas totales -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Citas Totales
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {{ citas|length if citas else 0 }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pendientes -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-warning shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Pendientes
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {{ citas_pendientes if citas_pendientes else 0 }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Confirmadas -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Confirmadas
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {{ citas_confirmadas if citas_confirmadas else 0 }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% else %}
+
+    <p>No autorizado ❌</p>
+
+{% endif %}
+
+<br>
+
+{% endblock %}

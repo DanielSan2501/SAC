@@ -1,0 +1,140 @@
+{% extends "dashboard_base.html" %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<div class="card shadow mb-4 border-left-success">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-success">Editar Mascota</h6>
+    </div>
+    <div class="card-body">
+
+        <div class="col-lg-12 p-3">
+
+            <form method="POST">
+
+                <h6 class="mb-3 text-success">Información de la mascota</h6>
+
+                <div class="form-row">
+
+                    <div class="form-group col-md-6">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" value="{{ mascota.nombre }}" required>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="especie">Especie</label>
+                        <input type="text" class="form-control" id="especie" name="especie" value="{{ mascota.especie }}" required>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="raza">Raza</label>
+                        <input type="text" class="form-control" id="raza" name="raza" value="{{ mascota.raza }}">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="sexo">Sexo</label>
+                        <select class="form-control" id="sexo" name="sexo" required>
+                            <option value="Macho" {% if mascota.sexo == "Macho" %}selected{% endif %}>Macho</option>
+                            <option value="Hembra" {% if mascota.sexo == "Hembra" %}selected{% endif %}>Hembra</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="edad">Edad</label>
+                        <input type="number" class="form-control" id="edad" name="edad" value="{{ mascota.edad }}">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="peso">Peso</label>
+                        <input type="number" step="0.1" class="form-control" id="peso" name="peso" value="{{ mascota.peso }}" required>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="fecha_nacimiento">Fecha de nacimiento</label>
+                        <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" value="{{ mascota.fecha_nacimiento }}">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="estado">Estado</label>
+                        <select class="form-control" id="estado" name="estado">
+                            <option value="1" {% if mascota.estado == 1 %}selected{% endif %}>Activo</option>
+                            <option value="0" {% if mascota.estado == 0 %}selected{% endif %}>Inactivo</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn btn-success btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-save"></i>
+                    </span>
+                    <span class="text">Guardar cambios</span>
+                </button>
+
+            </form>
+
+            <hr>
+
+            <button type="button"
+                class="btn btn-danger btn-icon-split"
+                data-toggle="modal"
+                data-target="#eliminarMascotaModal">
+                <span class="icon text-white-50">
+                    <i class="fas fa-times"></i>
+                </span>
+                <span class="text">Eliminar mascota</span>
+            </button>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="eliminarMascotaModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Header -->
+            <div class="modal-header">
+                <h5 class="modal-title">¿Eliminar mascota?</h5>
+                <button class="close" type="button" data-dismiss="modal">
+                    <span>×</span>
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body">
+                Esta acción eliminará la mascota y sus registros asociados.<br>
+                ¿Deseas continuar?
+            </div>
+
+            <!-- Footer -->
+            <div class="modal-footer">
+
+                <button class="btn btn-secondary" data-dismiss="modal">
+                    Cancelar
+                </button>
+
+                <!-- 👇 AQUÍ VA TU LÓGICA ORIGINAL -->
+                <form action="{{ url_for('eliminar_mascota_ruta', id_mascota=mascota.id) }}" method="POST">
+                    <button type="submit" class="btn btn-danger">
+                        Eliminar
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

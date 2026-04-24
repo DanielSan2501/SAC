@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dashboard - SAC</title>
+
+    <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/dashboard/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    {% block extra_css %}
+    {% endblock %}
+
+</head>
+
+<body id="page-top">
+
+    <div id="wrapper">
+
+        <!-- SIDEBAR -->
+        <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- BRAND -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-laugh-wink"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">SAC</div>
+            </a>
+
+            <hr class="sidebar-divider my-0">
+
+            <!-- USUARIO -->
+            <li class="nav-item active">
+                    <a class="nav-link" href="">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Panel</span> <span>{{ session.usuario.rol }}</span>
+                    </a>
+            </li>
+            
+            <hr class="sidebar-divider">
+
+            <div class="sidebar-heading">
+                    Interfaz
+            </div>
+
+            <!-- CLIENTE -->
+            {% if session.usuario.rol == "cliente" %}
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="/dashboard_cliente" aria-expanded="true" aria-controls="collapseDates">
+                        <i class="fas fa-fw fa-desktop"></i>
+                        <span>Inicio</span>
+                    </a>
+                </li>
+
+                <hr class="sidebar-divider">
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Gestión de Mascotas
+                </div>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePet"
+                        aria-expanded="true" aria-controls="collapsePet">
+                        <i class="fas fa-fw fa-paw"></i>
+                        <span>Mis Mascotas</span>
+                    </a>
+                    <div id="collapsePet" class="collapse" aria-labelledby="headingPet" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Menu:</h6>
+                            <a class="collapse-item" href="/registrar_mascota">Registrar mascota</a>
+                            <a class="collapse-item" href="/visualizar_mascotas">Ver mascotas</a>
+                        </div>
+                    </div>
+                </li>
+
+                <hr class="sidebar-divider">
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Gestión de Clínicas
+                </div>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseClinic"
+                        aria-expanded="true" aria-controls="collapseClinic">
+                        <i class="fas fa-fw fa-h-square"></i>
+                        <span>Clinica</span>
+                    </a>
+                    <div id="collapseClinic" class="collapse" aria-labelledby="headingClinic" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Menu:</h6>
+                            <a class="collapse-item" href="/visualizar_clinicas">Ver clinicas</a>
+                        </div>
+                    </div>
+                </li>
+
+                <hr class="sidebar-divider">
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Gestión de Citas
+                </div>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDates"
+                        aria-expanded="true" aria-controls="collapseDates">
+                        <i class="fas fa-fw fa-stethoscope"></i>
+                        <span>Citas</span>
+                    </a>
+                    <div id="collapseDates" class="collapse" aria-labelledby="headingDates" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Menu:</h6>
+                            <a class="collapse-item" href="/registrar_cita">Agendar cita</a>
+                            <a class="collapse-item" href="/visualizar_citas">Mis citas</a>
+                        </div>
+                    </div>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="/historial_citas" aria-expanded="true" aria-controls="collapseDates">
+                        <i class="fas fa-fw fa-list-alt"></i>
+                        <span>Historial Servicios</span>
+                    </a>
+                </li>
+            {% endif %}
+
+            <!-- CLINICA -->
+            {% if session.usuario.rol == "clinica" %}
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="/dashboard_clinica" aria-expanded="true" aria-controls="collapseDates">
+                        <i class="fas fa-fw fa-desktop"></i>
+                        <span>Inicio</span>
+                    </a>
+                </li>
+
+                <hr class="sidebar-divider">
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Gestión de Clínica
+                </div>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseClinic"
+                        aria-expanded="true" aria-controls="collapseClinic">
+                        <i class="fas fa-fw fa-h-square"></i>
+                        <span>Clinica</span>
+                    </a>
+                    <div id="collapseClinic" class="collapse" aria-labelledby="headingClinic" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Menu:</h6>
+
+                            {% if session.usuario.get("estado_clinica") is none %}
+                                <a class="collapse-item" href="/registrar_clinica">Registrar clínica</a>
+                            {% endif %}
+
+                            {% if session.usuario.get("estado_clinica") is not none %}
+                                <a class="collapse-item" href="/editar_clinica">Editar clínica</a>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </li>
+
+                {% if session.usuario.get("estado_clinica") == 1 %}
+
+                <hr class="sidebar-divider">
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Gestión de Servicios
+                </div>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseServices"
+                        aria-expanded="true" aria-controls="collapseServices">
+                        <i class="fas fa-fw fa-heartbeat"></i>
+                        <span>Servicios</span>
+                    </a>
+                    <div id="collapseServices" class="collapse" aria-labelledby="headingServices" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Menu:</h6>
+                            <a class="collapse-item" href="/registrar_servicio">Registrar servicio</a>
+                            <a class="collapse-item" href="/visualizar_servicios">Mis servicios</a>
+                        </div>
+                    </div>
+                </li>
+
+                <hr class="sidebar-divider">
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Gestión de Citas
+                </div>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDates"
+                        aria-expanded="true" aria-controls="collapseDates">
+                        <i class="fas fa-fw fa-stethoscope"></i>
+                        <span>Citas</span>
+                    </a>
+                    <div id="collapseDates" class="collapse" aria-labelledby="headingDates" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Menu:</h6>
+                            <a class="collapse-item" href="/citas_clinica">Citas</a>
+                    </div>
+                </li>
+
+                {% elif session.usuario.get("estado_clinica") == 0 %}
+
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Mensaje
+                </div>
+                <div class="my-2"></div>
+                <div class="text-center d-none d-md-inline">
+                    <a href="" class="btn btn-warning btn-icon-split btn-sm">
+                        <span class="icon text-white-50"><i class="fas fa-exclamation-triangle"></i></span>
+                        <span class="text">Pendiente de validación</span>
+                    </a>
+                </div>
+
+                {% else %}
+
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Mensaje
+                </div>
+                <div class="my-2"></div>
+                <div class="text-center d-none d-md-inline">
+                    <a href="" class="btn btn-danger btn-icon-split btn-sm">
+                        <span class="icon text-white-50"><i class="fas fa-exclamation-triangle"></i></span>
+                        <span class="text">Registrar clinica primero</span>
+                    </a>
+                </div>
+
+                {% endif %}
+
+            {% endif %}
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button type="button" class="btn shadow-sm" id="sidebarToggle" title="Alternar barra lateral"></button>
+            </div>
+
+        </ul>
+
+        <!-- CONTENT WRAPPER -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- MAIN CONTENT -->
+            <div id="content">
+                
+                <!-- TOPBAR -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button type="button" id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3" title="Alternar barra lateral">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <span class="ml-3 font-weight-bold">
+                        Sistema de Atención Canina 🐶
+                    </span>
+
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-user-circle fa-sm fa-fw mr-2 text-gray-400"></i>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ session.usuario.nombre_completo }}</span>
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="/perfil">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Perfil
+                                </a>
+                                <a class="dropdown-item" href="/editar_perfil">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Editar perfil
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Cerrar sesión
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- CONTENIDO DINÁMICO -->
+                <div class="container-fluid">
+
+                    {% block content %}
+                    {% endblock %}
+
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; SAC Website 2026</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+        </div>
+    </div>
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">¿Listo para salir?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Seleccione "Cerrar sesión" a continuación si está listo para finalizar su sesión actual.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-success" href="/logout">Cerrar sesión</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{ url_for('static', filename='js/dashboard/sb-admin-2.min.js') }}"></script>
+    
+    <!-- Page level plugins -->
+    <script src="{{ url_for('static', filename='vendor/chart.js/Chart.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{ url_for('static', filename='js/dashboard/demo/chart-area-demo.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dashboard/demo/chart-pie-demo.js') }}"></script>
+
+
+    <!-- BLOQUE EXTRA JS -->
+    {% block extra_js %}
+    {% endblock %}
+
+    <!-- PROTECCIÓN CACHE -->
+    <script>
+    window.addEventListener("pageshow", function (event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    });
+
+    window.onpageshow = function(event) {
+        if (event.persisted || window.performance.navigation.type === 2) {
+            window.location.reload();
+        }
+    };
+    </script>
+
+</body>
+</html>

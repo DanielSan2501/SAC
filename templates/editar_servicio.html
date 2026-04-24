@@ -1,0 +1,122 @@
+{% extends "dashboard_base.html" %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<div class="card shadow mb-4 border-left-success">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-success">Editar Servicio</h6>
+    </div>
+    <div class="card-body">
+
+        <div class="col-lg-12 p-3">
+
+            <form method="POST">
+
+                <div class="form-row">
+
+                    <div class="form-group col-md-6">
+                        <label for="tipo_servicio">Tipo</label>
+                        <input type="text" class="form-control" id="tipo_servicio" name="tipo_servicio" value="{{ servicio.tipo_servicio }}" required>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" value="{{ servicio.nombre }}" required>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label for="descripcion">Descripción</label>
+                        <input type="text" class="form-control" id="descripcion" name="descripcion" value="{{ servicio.descripcion }}">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="precio">Precio</label>
+                        <input type="number" class="form-control" id="precio" name="precio" value="{{ servicio.precio|int }}" required>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="duracion">Duración</label>
+                        <input type="number" class="form-control" id="duracion" name="duracion" value="{{ servicio.duracion }}" required>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="estado">Estado</label>
+                        <select class="form-control" id="estado" name="estado">
+                            <option value="1" {% if servicio.estado == 1 %}selected{% endif %}>Activo</option>
+                            <option value="0" {% if servicio.estado == 0 %}selected{% endif %}>Inactivo</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <button class="btn btn-success btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-save"></i>
+                    </span>
+                    <span class="text">Guardar cambios</span>
+                </button>
+
+            </form>
+
+            <hr>
+            
+            <button type="button"
+                class="btn btn-danger btn-icon-split"
+                data-toggle="modal"
+                data-target="#eliminarServicioModal">
+                <span class="icon text-white-50">
+                    <i class="fas fa-times"></i>
+                </span>
+                <span class="text">Desactivar servicio</span>
+            </button>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="eliminarServicioModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Header -->
+            <div class="modal-header">
+                <h5 class="modal-title">¿Desactivar servicio?</h5>
+                <button class="close" type="button" data-dismiss="modal">
+                    <span>×</span>
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body">
+                Esta acción desactivará el servicio y sus registros asociados.<br>
+                ¿Deseas continuar?
+            </div>
+
+            <!-- Footer -->
+            <div class="modal-footer">
+
+                <button class="btn btn-secondary" data-dismiss="modal">
+                    Cancelar
+                </button>
+
+                <!-- 👇 AQUÍ VA TU LÓGICA ORIGINAL -->
+                <form action="{{ url_for('eliminar_servicio_ruta', id_servicio=servicio.id) }}" method="POST">
+                    <button type="submit" class="btn btn-danger">
+                        Desactivar
+                    </button>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

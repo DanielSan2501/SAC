@@ -1,0 +1,52 @@
+{% extends "dashboard_base.html" %}
+
+{% block content %}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-success">Historial de Citas</h6>
+    </div>
+
+    <div class="card-body">
+
+        {% if citas %}
+
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Mascota</th>
+                        <th>Clínica</th>
+                        <th>Servicio</th>
+                        <th>Estado</th>
+                        <th>Observaciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for cita in citas %}
+                    <tr>
+                        <td>{{ cita[1] }}</td>
+                        <td>{{ cita[4] if cita[4] else "Mascota Eliminada" }}</td>
+                        <td>{{ cita[5] if cita[5] else "Clínica Eliminada" }}</td>
+                        <td>{{ cita[6] if cita[6] else "Servicio Eliminado" }}</td>
+                        <td>{{ cita[3] }}</td>
+                        <td>{{ cita[2] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+
+        {% else %}
+        <div class="alert alert-secondary mt-3" role="alert">
+            No tienes historial de citas.
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

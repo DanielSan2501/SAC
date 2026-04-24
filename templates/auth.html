@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login/login.css') }}">
+{% endblock %}
+
+{% block extra %}
+<div>
+	<header class="header">
+		<a href="/" class="logo-link">
+			<h1>Sistema de Atención Canina 🐶</h1>
+		</a>
+	</header>
+</div>
+{% endblock %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<div class="container" id="container">
+
+	<!-- REGISTRO -->
+	<div class="form-container sign-up-container">
+		<form method="POST" action="/register">
+			<h1>Crear cuenta</h1>
+
+			<input type="text" name="tipo_documento" id="tipo_documento" placeholder="Tipo de documento" required>
+			<input type="text" name="numero_documento" id="numero_documento" placeholder="Número de documento" required>
+			<input type="text" name="nombre_completo" id="nombre_completo" placeholder="Nombre completo" required />
+			<input type="email" name="correo" id="correo" placeholder="Correo" required />
+			<input type="password" name="password" id="password" placeholder="Contraseña" required />
+			<input type="text" name="telefono" id="telefono" placeholder="Teléfono" required />
+
+			<select name="rol" id="rol" title="Selecciona tu rol" required>
+				<option value="">-- Selecciona un rol --</option>
+				<option value="cliente">Cliente</option>
+				<option value="clinica">Clínica</option>
+			</select>
+
+			<button type="submit">Registrarse</button>
+		</form>
+	</div>
+
+	<!-- LOGIN -->
+	<div class="form-container sign-in-container">
+		<form method="POST" action="/login">
+			<h1>Iniciar sesión</h1>
+
+			<input type="email" name="correo" placeholder="Correo" required />
+			<input type="password" name="password" placeholder="Contraseña" required />
+
+			<button type="submit">Entrar</button>
+		</form>
+	</div>
+
+	<!-- OVERLAY -->
+	<div class="overlay-container">
+		<div class="overlay">
+
+			<div class="overlay-panel overlay-left">
+				<h1>¡Bienvenido!</h1>
+				<p>Inicia sesión para continuar</p>
+				<button class="ghost" id="signIn">Iniciar sesión</button>
+			</div>
+
+			<div class="overlay-panel overlay-right">
+				<h1>Hola 👋</h1>
+				<p>Regístrate para comenzar</p>
+				<button class="ghost" id="signUp">Registrarse</button>
+			</div>
+
+		</div>
+	</div>
+
+</div>
+
+<script>
+    const modo = "{{ request.args.get('modo') }}";
+
+    window.addEventListener("DOMContentLoaded", () => {
+        const container = document.getElementById("container");
+
+        if (modo === "register") {
+            container.classList.add("right-panel-active");
+        } else {
+            container.classList.remove("right-panel-active");
+        }
+    });
+</script>
+
+<script src="{{ url_for('static', filename='js/login/auth.js') }}"></script>
+
+{% endblock %}

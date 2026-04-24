@@ -1,0 +1,112 @@
+{% extends "dashboard_base.html" %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<div class="card shadow mb-4 border-left-success">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-success">Agendar Cita</h6>
+    </div>
+    <div class="card-body">
+
+        <div class="col-lg-12 p-3">
+
+            <form method="POST">
+
+                <h6 class="mb-3 text-success">Datos de la cita</h6>
+
+                <div class="form-row">
+
+                    <div class="form-group col-md-6">
+                        <label for="id_mascota">Mascota</label>
+                        <select class="form-control" id="id_mascota" name="id_mascota" required>
+                            <option value="">Seleccione una mascota</option>
+                            {% for mascota in mascotas %}
+                                <option value="{{ mascota.id }}">{{ mascota.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="id_clinica">Clínica</label>
+                        <select class="form-control" id="id_clinica" name="id_clinica" required>
+                            <option value="">Seleccione una clínica</option>
+                            {% for clinica in clinicas %}
+                                <option value="{{ clinica.id }}">{{ clinica.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="id_servicio">Servicio</label>
+                        <select class="form-control" id="id_servicio" name="id_servicio">
+                            <option value="">Seleccione una clínica primero</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="fecha">Fecha y hora</label>
+                        <input type="datetime-local" class="form-control" id="fecha" name="fecha" required>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label for="observaciones">Observaciones</label>
+                        <textarea class="form-control" id="observaciones" name="observaciones"></textarea>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn btn-success btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-calendar-check"></i>
+                    </span>
+                    <span class="text">Agendar Cita</span>
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById("id_clinica").addEventListener("change", function() {
+
+    const idClinica = this.value;
+    const servicioSelect = document.getElementById("id_servicio");
+
+    // Limpiar
+    servicioSelect.innerHTML = '<option value="">Cargando...</option>';
+
+    fetch(`/servicios_por_clinica/${idClinica}`)
+        .then(response => response.json())
+        .then(data => {
+
+            servicioSelect.innerHTML = '<option value="">Seleccione un servicio</option>';
+
+            data.servicios.forEach(servicio => {
+                const option = document.createElement("option");
+                option.value = servicio.id;
+                option.textContent = servicio.nombre;
+                servicioSelect.appendChild(option);
+            });
+
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            servicioSelect.innerHTML = '<option value="">Error al cargar</option>';
+        });
+
+});
+</script>
+
+{% endblock %}

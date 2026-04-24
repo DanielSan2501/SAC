@@ -1,0 +1,364 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+    <!-- slider stylesheet -->
+    <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
+
+    <!-- bootstrap core css -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/landing/bootstrap.css') }}" />
+
+    <!-- fonts style -->
+    <link href="https://fonts.googleapis.com/css?family=Dosis:400,500|Poppins:400,700&display=swap" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/landing/style.css') }}" rel="stylesheet" />
+    <!-- responsive style -->
+    <link href="{{ url_for('static', filename='css/landing/responsive.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<div>
+    <!-- header section strats -->
+    <header class="header_section">
+        <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+            <a class="navbar-brand" href="{{ url_for('index') }}">
+            <!-- <img src="{{ url_for('static', filename='img/landing/logo.png') }}" alt=""> -->
+            <span>
+                SAC
+            </span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex mx-auto flex-column flex-lg-row align-items-center">
+                <ul class="navbar-nav  ">
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">Sobre nosotros</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#services">Servicios Clientes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#services-clinics">Funcionalidades Clinicas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">Contactanos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/auth">Iniciar sesión</a>
+                </ul>
+            </div>
+            </div>
+        </nav>
+        </div>
+    </header>
+    <!-- end header section -->
+
+    <!-- slider section -->
+    <section class=" slider_section position-relative">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-4 offset-md-2">
+                            <div class="slider_detail-box">
+                                <h1>
+                                    Sistema Web
+                                    <span>de Atención Canina</span>
+                                </h1>
+                                <p>
+                                    Plataforma digital para gestionar citas veterinarias,
+                                    registrar mascotas y conectar clientes con clínicas
+                                    de forma rápida y eficiente.
+                                </p>
+                                <div class="btn-box">
+                                    <a href="{{ url_for('auth', modo='register') }}" class="btn-1">
+                                    Registrarse
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="slider_img-box">
+                            <img src="{{ url_for('static', filename='img/landing/slider-img.png') }}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end slider section -->
+</div>
+
+<div>
+    <!-- about section -->
+    <section id="about" class="about_section layout_padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="img-box">
+                    <img src="{{ url_for('static', filename='img/landing/about.png') }}" alt="">
+                    </div>
+                </div>
+            <div class="col-md-6">
+                <div class="detail-box">
+                <h2 class="custom_heading">
+                    Sobre el
+                    <span>Sistema SAC</span>
+                </h2>
+
+                <p>
+                    SAC (Sistema de Atención Canina) permite a los usuarios
+                    agendar citas, gestionar sus mascotas y acceder a servicios
+                    veterinarios, mientras que las clínicas pueden administrar
+                    sus servicios y horarios de atención.
+                </p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- service section -->
+<section id="services" class="service_section layout_padding">
+<div class="container-fluid">
+    <div class="row">
+    <div class="col-md-6 offset-md-2">
+        <h2 class="custom_heading">
+        Servicios <span>Clientes</span>
+        </h2>
+        <div class="container layout_padding2">
+        <div class="row">
+            <div class="col-md-4">
+            <div class="img_box">
+                <img src="{{ url_for('static', filename='img/landing/s-1.png') }}" alt="">
+            </div>
+            <div class="detail_box">
+                <h6>Gestión de Mascotas</h6>
+                <p>Registro, actualización y control de mascotas del usuario.</p>
+            </div>
+            </div>
+            <div class="col-md-4">
+            <div class="img_box">
+                <img src="{{ url_for('static', filename='img/landing/s-2.png') }}" alt="">
+            </div>
+            <div class="detail_box">
+                <h6>Agendamiento de Citas</h6>
+                <p>Reserva de citas veterinarias con clínicas disponibles.</p>
+            </div>
+            </div>
+            <div class="col-md-4">
+            <div class="img_box">
+                <img src="{{ url_for('static', filename='img/landing/s-3.png') }}" alt="">
+            </div>
+            <div class="detail_box">
+                <h6>Servicios Veterinarios</h6>
+                <p>Consulta de servicios activos ofrecidos por clínicas.</p>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <img src="{{ url_for('static', filename='img/landing/tool.png') }}" alt="" class="w-100">
+    </div>
+    </div>
+</div>
+</section>
+<!-- end service section -->
+
+<!-- buy section -->
+<section id="buy" class="buy_section layout_padding">
+<div class="container">
+        <h2>Agenda tu cita fácilmente</h2>
+        <p>
+        Accede al sistema SAC y gestiona tus citas veterinarias
+        de manera rápida y segura desde cualquier lugar.
+        </p>
+
+        <a href="{{ url_for('auth', modo='login') }}">Ingresar al sistema</a>
+    </div>
+</div>
+</section>
+<!-- end buy section -->
+
+<!-- service section -->
+<section id="services-clinics" class="service_section layout_padding">
+<div class="container-fluid">
+    <div class="row">
+    <div class="col-md-6 offset-md-2">
+        <h2 class="custom_heading">
+        Funcionalidades <span>Clínicas</span>
+        </h2>
+        <div class="container layout_padding2">
+        <div class="row">
+            <div class="col-md-4">
+            <div class="img_box">
+                <img src="{{ url_for('static', filename='img/landing/s-1.png') }}" alt="">
+            </div>
+            <div class="detail_box">
+                <h6>Gestión de Servicios</h6>
+                <p>
+                    Registro, actualización y administración de servicios veterinarios ofrecidos por la clínica.
+                </p>
+            </div>
+            </div>
+            <div class="col-md-4">
+            <div class="img_box">
+                <img src="{{ url_for('static', filename='img/landing/s-2.png') }}" alt="">
+            </div>
+            <div class="detail_box">
+                <h6>Gestión de Citas</h6>
+                <p>
+                    Visualización y control de citas agendadas por los clientes, con posibilidad de confirmarlas o gestionarlas.
+                </p>
+            </div>
+            </div>
+            <div class="col-md-4">
+            <div class="img_box">
+                <img src="{{ url_for('static', filename='img/landing/s-3.png') }}" alt="">
+            </div>
+            <div class="detail_box">
+                <h6>Validación de Clínica</h6>
+                <p>
+                    Control en la seguridad en las clínicas dentro del sistema, asegurando que solo clínicas validadas puedan ofrecer servicios.
+                </p>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <img src="{{ url_for('static', filename='img/landing/tool.png') }}" alt="" class="w-100">
+    </div>
+    </div>
+</div>
+</section>
+<!-- end service section -->
+
+<!-- info section -->
+<section id="contact" class="info_section layout_padding2">
+<div class="container">
+    <div class="info_items">
+    <a href="">
+        <div class="item ">
+        <div class="img-box box-1">
+            <img src="{{ url_for('static', filename='img/landing/location.png') }}" alt="">
+        </div>
+        <div class="detail-box">
+            <p>
+            Ubicación
+            </p>
+        </div>
+        </div>
+    </a>
+    <a href="">
+        <div class="item ">
+        <div class="img-box box-2">
+            <img src="{{ url_for('static', filename='img/landing/phone.png') }}" alt="">
+        </div>
+        <div class="detail-box">
+            <p>
+            +57 300 1234567
+            </p>
+        </div>
+        </div>
+    </a>
+    <a href="">
+        <div class="item ">
+        <div class="img-box box-3">
+            <img src="{{ url_for('static', filename='img/landing/email.png') }}" alt="">
+        </div>
+        <div class="detail-box">
+            <p>
+            ejemplo@sac.com
+            </p>
+        </div>
+        </div>
+    </a>
+    </div>
+</div>
+</section>
+<!-- end info_section -->
+
+<!-- footer section -->
+<section class="container-fluid footer_section">
+<p>
+    &copy; 2026 Todos los derechos reservados por 
+    <a>SAC - Sistema WEB de Atención Canina</a>
+</p>
+</section>
+<!-- footer section -->
+
+<button id="btnTop" class="btn-top">↑</button>
+
+{% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/landing/jquery-3.4.1.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/landing/bootstrap.js') }}"></script>
+
+<script>
+// This example adds a marker to indicate the position of Bondi Beach in Sydney,
+// Australia.
+function initMap() {
+    var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 11,
+    center: {
+        lat: 40.645037,
+        lng: -73.880224
+    },
+    });
+
+    var image = "{{ url_for('static', filename='img/landing/maps-and-flags.png') }}";
+    var beachMarker = new google.maps.Marker({
+    position: {
+        lat: 40.645037,
+        lng: -73.880224
+    },
+    map: map,
+    icon: image
+    });
+}
+</script>
+<!-- google map js -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8eaHt9Dh5H57Zh0xVTqxVdBFCvFMqFjQ&callback=initMap">
+</script>
+
+<script>
+const btnTop = document.getElementById("btnTop");
+
+// Mostrar botón al hacer scroll
+window.onscroll = function() {
+    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+        btnTop.style.display = "block";
+    } else {
+        btnTop.style.display = "none";
+    }
+};
+
+// Volver arriba
+btnTop.addEventListener("click", function() {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+});
+</script>
+<!-- end google map js -->
+{% endblock %}

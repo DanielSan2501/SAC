@@ -1,0 +1,83 @@
+{% extends "dashboard_base.html" %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-success">Mis Mascotas</h6>
+    </div>
+
+    <div class="card-body">
+
+        {% if mascotas %}
+
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Especie</th>
+                        <th>Raza</th>
+                        <th>Sexo</th>
+                        <th>Edad</th>
+                        <th>Peso</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for mascota in mascotas %}
+                    <tr>
+                        <td>{{ mascota.nombre }}</td>
+                        <td>{{ mascota.especie }}</td>
+                        <td>{{ mascota.raza }}</td>
+                        <td>{{ mascota.sexo }}</td>
+                        <td>{{ mascota.edad }}</td>
+                        <td>{{ mascota.peso }}</td>
+                        <td>{{ mascota.fecha_nacimiento }}</td>
+                        <td>
+                            {% if mascota.estado == 1 %}
+                                <span class="badge badge-success">Activo</span>
+                            {% else %}
+                                <span class="badge badge-secondary">Inactivo</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('editar_mascota_ruta', id_mascota=mascota.id) }}">
+                                <button class="btn btn-success btn-icon-split">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-edit"></i>
+                                    </span>
+                                    <span class="text">Editar</span>
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+
+        {% else %}
+        <div class="alert alert-secondary mt-3" role="alert">
+            No tienes mascotas registradas.
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

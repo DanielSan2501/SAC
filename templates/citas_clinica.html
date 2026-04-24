@@ -1,0 +1,86 @@
+{% extends "dashboard_base.html" %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-success">Citas de la Clínica</h6>
+    </div>
+
+    <div class="card-body">
+
+        {% if citas %}
+
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Mascota</th>
+                        <th>Cliente</th>
+                        <th>Servicio</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for cita in citas %}
+                    <tr>
+                        <td>{{ cita[1] }}</td>
+                        <td>{{ cita[4] if cita[4] else "Mascota Eliminada" }}</td>
+                        <td>{{ cita[5] if cita[5] else "Cliente eliminado" }}</td>
+                        <td>{{ cita[6] if cita[6] else "Servicio eliminado" }}</td>
+
+                        <td>
+                            {% if cita[3] == "Pendiente" %}
+                                <span class="badge badge-warning">Pendiente</span>
+                            {% elif cita[3] == "Confirmada" %}
+                                <span class="badge badge-success">Confirmada</span>
+                            {% elif cita[3] == "Cancelada" %}
+                                <span class="badge badge-danger">Cancelada</span>
+                            {% else %}
+                                <span class="badge badge-secondary">{{ cita[3] }}</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if cita[3] == "Pendiente" %}
+                            <form action="{{ url_for('confirmar_cita_ruta', id_cita=cita[0]) }}" method="POST">
+                                <button type="submit" class="btn btn-success btn-icon-split">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-calendar-check"></i>
+                                    </span>
+                                    <span class="text">Confirmar</span>
+                                </button>
+                            </form>
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+
+        {% else %}
+            <p>No hay citas registradas.</p>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

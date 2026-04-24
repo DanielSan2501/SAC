@@ -1,0 +1,48 @@
+{% extends "dashboard_base.html" %}
+
+{% block content %}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-success">Clínicas Disponibles</h6>
+    </div>
+
+    <div class="card-body">
+
+        {% if clinicas %}
+
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Dirección</th>
+                        <th>Teléfono</th>
+                        <th>Correo</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for clinica in clinicas %}
+                    <tr>
+                        <td>{{ clinica.nombre }}</td>
+                        <td>{{ clinica.direccion }}</td>
+                        <td>{{ clinica.telefono }}</td>
+                        <td>{{ clinica.correo }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+
+        {% else %}
+        <div class="alert alert-secondary mt-3" role="alert">
+            No hay clínicas disponibles en este momento.
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}
