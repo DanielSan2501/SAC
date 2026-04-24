@@ -61,6 +61,8 @@ def init_db():
         conn.close()
 
         print("✅ Base de datos creada correctamente")
+    else:
+        print("✅ Base de datos ya existe, no se necesita crear")
 
 def cargar_env():
     if os.path.exists(".env"):  
